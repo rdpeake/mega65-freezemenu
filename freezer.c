@@ -1021,17 +1021,26 @@ int main(int argc,char **argv)
 	}
 	break;
 
-      case 'R': case 'r': // Switch ROMs
-	
+      case 'R': case 'r': { // Switch ROMs 
+	       char *rom_image=freeze_select_rom_image();
+          if ((unsigned short)rom_image==0xFFFF) {
+            // Have no disk image
+          } else if (rom_image) {
+            //rom version is currently detected by draw freeze menu, don't need to update anything here
+
+          }
+        draw_freeze_menu();
+        break;
+      }
       case 'X': case 'x': // Poke finder
       case 'E': case 'e': // Enter POKEs
       case 'k': case 'K': // Sprite killer
       default:
-	// For invalid or unimplemented functions flash the border and screen
-	POKE(0xD020U,1); POKE(0xD021U,1);
-	usleep(150000L);
-	POKE(0xD020U,6); POKE(0xD021U,6);
-	break;
+      	// For invalid or unimplemented functions flash the border and screen
+      	POKE(0xD020U,1); POKE(0xD021U,1);
+      	usleep(150000L);
+      	POKE(0xD020U,6); POKE(0xD021U,6);
+      	break;
       }
       
     }

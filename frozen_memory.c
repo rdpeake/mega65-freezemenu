@@ -173,3 +173,29 @@ void freeze_poke(uint32_t addr,unsigned char v)
 
 }
 
+void freeze_load_page(uint32_t addr, unsigned char *buffer)
+{
+  // Find sector
+  uint32_t freeze_slot_offset=address_to_freeze_slot_offset(addr);
+  unsigned short offset;
+
+  offset=freeze_slot_offset&0x1ff;
+  freeze_slot_offset=freeze_slot_offset>>9L;
+  
+  if (freeze_slot_offset==0xFFFFFFFFL) {
+    // Invalid / unfrozen memory
+    return;
+  }
+
+  // XXX - We should cache sectors
+
+ // Read the sector
+  sdcard_readsector(freeze_slot_start_sector+freeze_slot_offset);
+
+  //replace buffer contents
+  lcopy((long)buffer,(long)&sector_buffer[offset], 256);
+
+  // Write sector back
+  sdcard_writesector(freeze_slot_start_sector+freeze_slot_offset,0); 
+
+}

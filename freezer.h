@@ -21,12 +21,15 @@ void closeall(void);
 void freeze_monitor(void);
 char *freeze_select_disk_image(unsigned char drive_id);
 
+char *freeze_select_rom_image(void);
+
 void request_freeze_region_list(void);
 uint32_t address_to_freeze_slot_offset(uint32_t address);
 uint32_t find_thumbnail_offset(void);
 unsigned char freeze_peek(uint32_t addr);
 void freeze_poke(uint32_t addr,unsigned char v);
 unsigned char freeze_fetch_page(uint32_t addr,unsigned char *buffer);
+void freeze_load_page(uint32_t addr,unsigned char *buffer);
 unsigned short get_freeze_slot_count(void);
 void do_audio_mixer(void);
 void do_sprite_editor(void);
